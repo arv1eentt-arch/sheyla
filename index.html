@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Elegant Memories</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Garamond & Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #F9F5F0 0%, #F3EBE1 50%, #EFE5D8 100%);
+            -webkit-font-smoothing: antialiased;
+        }
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* 🍎 iOS GLASS CARD STYLE */
+        .ios-glass {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 20px 50px rgba(142, 126, 107, 0.08),
+                        0 1px 3px rgba(255, 255, 255, 0.8) inset;
+        }
+
+        .ios-glass-interactive {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 15px 35px rgba(142, 126, 107, 0.06),
+                        0 1px 2px rgba(255, 255, 255, 0.9) inset;
+        }
+
+        /* ✉️ ANIMASI FLOATING AMPLOP iOS */
+        .floating-envelope {
+            animation: iosFloat 4.5s ease-in-out infinite;
+            will-change: transform;
+        }
+        @keyframes iosFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(0.5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* ✨ POLAROID iOS GLASS FRAME */
+        .polaroid-container {
+            position: relative;
+            margin-bottom: 2rem;
+            break-inside: avoid;
+            display: block;
+            will-change: transform;
+        }
+
+        .polaroid-frame {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 14px 14px 20px 14px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(142, 126, 107, 0.08),
+                        0 1px 1px rgba(255, 255, 255, 1) inset;
+            display: block;
+            width: 100%;
+            cursor: zoom-in;
+            transform: rotate(var(--base-rot, 0deg));
+            will-change: transform, box-shadow;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.6s ease;
+        }
+
+        /* 🎯 HOVER EFFECT DENGAN SPRING EASE iOS */
+        .polaroid-container:hover {
+            z-index: 50 !important;
+        }
+        
+        .polaroid-container:hover .polaroid-frame {
+            box-shadow: 0 25px 50px rgba(120, 100, 80, 0.15),
+                        0 0 0 1px rgba(255, 255, 255, 1) inset !important;
+            transform: translateY(-10px) scale(1.03) rotate(0deg) !important;
+        }
+
+        /* 🎬 ANIMASI SLIDE & FADE */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            will-change: transform, opacity;
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-slide-up {
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: transform, opacity;
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .text-slide-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .elegant-divider {
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(163, 145, 122, 0.4), transparent);
+            margin: 18px auto 0 auto;
+            transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .text-slide-up.visible .elegant-divider {
+            width: 140px;
+        }
+
+        /* ⌨️ CURSOR BLINK TYPEWRITER */
+        .typewriter-cursor::after {
+            content: '|';
+            animation: blink 0.9s step-start infinite;
+            color: #4A4238;
+            font-weight: 300;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* 🔍 LIGHTBOX GLASS OVERLAY */
+        #lightboxOverlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(30, 26, 22, 0);
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            z-index: 100;
+            pointer-events: none; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            transition: background-color 0.5s ease, backdrop-filter 0.5s ease;
+        }
+        #lightboxOverlay.active {
+            background-color: rgba(30, 26, 22, 0.45);
+            backdrop-filter: blur(25px) saturate(150%);
+            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            pointer-events: auto; 
+        }
+
+        .zoomed-container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            padding: 18px 18px 24px 18px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25),
+                        0 1px 2px rgba(255, 255, 255, 1) inset;
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            max-width: 90vw;
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            will-change: transform, opacity;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        opacity 0.5s ease;
+            cursor: zoom-out;
+        }
+        #lightboxOverlay.active .zoomed-container {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="relative w-full h-screen overflow-hidden">
+
+    <!-- AUDIO BACKSOUND BARU -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://raw.githubusercontent.com/arv1eentt-arch/sheyla/cd8faeae4acd955a1e42a12647b1ecf5b5f2d1fd/Devin%20Arvinata%20Adam%20-%20Untitled%20-%201789729763415.m4a" type="audio/mp4">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- 🌸 BACKGROUND CANVAS PETALS -->
+    <canvas id="petalCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- 🔍 LIGHTBOX OVERLAY -->
+    <div id="lightboxOverlay"></div>
+
+    <!-- 📜 BERANDA UTAMA -->
+    <div id="mainScrollableContent" class="w-full h-screen overflow-y-auto relative z-10 scroll-smooth">
+        
+        <!-- BAGIAN 1: AMPLOP GLASSMORPHISM -->
+        <div id="envelopeSection" class="w-full h-screen flex flex-col items-center justify-center relative p-4 transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)">
+            <div id="envelopeWrapper" class="floating-envelope flex flex-col items-center justify-center cursor-pointer group transition-all duration-700">
+                
+                <!-- AMPLOP WET-GLASS LOOK -->
+                <div class="ios-glass-interactive relative w-72 h-48 rounded-3xl p-4 flex items-center justify-center transition-transform group-hover:scale-105 duration-500">
+                    <div class="absolute top-0 inset-x-0 h-0 w-0 border-t-[90px] border-t-white/40 border-x-[144px] border-x-transparent border-b-0 origin-top z-10 rounded-t-3xl backdrop-blur-sm"></div>
+                    <div class="absolute bottom-0 inset-x-0 h-0 w-0 border-b-[90px] border-b-white/50 border-x-[144px] border-x-transparent border-t-0 rounded-b-3xl"></div>
+                    
+                    <!-- WAX SEAL -->
+                    <div class="absolute w-14 h-14 bg-rose-500/80 backdrop-blur-md rounded-full z-20 flex items-center justify-center shadow-lg border border-white/60 group-hover:bg-rose-500 transition-colors animate-pulse">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" stroke="#FFFFFF"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    </div>
+                </div>
+
+                <p class="mt-6 text-stone-500/80 font-medium tracking-[0.25em] text-[11px] uppercase backdrop-blur-md px-4 py-1.5 rounded-full border border-white/40 bg-white/20">Tap to Open Gift</p>
+            </div>
+        </div>
+
+        <!-- CONTAINER KONTEN UTAMA -->
+        <div id="revealedContent" class="hidden w-full flex flex-col items-center pb-24">
+            
+            <!-- 👋 KATA SAPAAN -->
+            <div id="greetingSection" class="w-full text-center px-6 mb-8 text-slide-up">
+                <h1 class="font-serif text-4xl sm:text-5xl text-stone-800 font-medium tracking-wide">ElloOoOU Teh Caa!</h1>
+                <p class="font-serif text-sm italic text-stone-500/90 tracking-wide mt-2">From Shey</p>
+                <div class="elegant-divider"></div>
+            </div>
+
+            <!-- BAGIAN 2: SURAT UCAPAN GLASS CARD -->
+            <div id="letterSection" class="w-full flex items-center justify-center px-6 mb-20 text-slide-up">
+                <div class="ios-glass max-w-xl w-full px-6 sm:px-10 py-10 rounded-[32px] text-center">
+                    <p id="typewrittenText" class="text-stone-700 font-serif text-base sm:text-lg italic leading-relaxed max-w-xl mx-auto font-light min-h-[80px] typewriter-cursor text-pretty"></p>
+                    <div class="mt-8 flex flex-col items-center justify-center gap-2 text-stone-400 text-[10px] tracking-[0.35em] uppercase font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-rose-400"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                        <span>with whole heart</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BAGIAN 3: GALERI FOTO POLAROID -->
+            <div id="filmSection" class="w-full flex flex-col items-center px-6">
+                <div id="galleryHeader" class="text-center mb-10 scroll-reveal">
+                    <h3 class="font-serif text-3xl text-stone-800 italic tracking-wide font-light mb-1">fragments of u</h3>
+                    <p class="text-[10px] font-semibold tracking-[0.25em] text-stone-400 uppercase">Tap the memories!</p>
+                </div>
+                
+                <!-- Grid Layout Polaroid Kaca -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7 max-w-4xl w-full">
+                    
+                    <!-- Foto 1 -->
+                    <div class="polaroid-container scroll-reveal" style="--base-rot: -1.5deg;">
+                        <div class="polaroid-frame">
+                            <img src="https://raw.githubusercontent.com/arv1eentt-arch/sheyla/39ee1676ed953a7ad3aba2d65b2881bb72ea1050/WhatsApp%20Image%202026-09-08%20at%2018.26.19%20(1).jpeg" class="w-full h-auto rounded-2xl shadow-sm" alt="Memory 1">
+                            <p class="font-serif italic text-center text-base text-stone-600 mt-3 tracking-wide">Chapter I</p>
+                        </div>
+                    </div>
+
+                    <!-- Foto 2 -->
+                    <div class="polaroid-container scroll-reveal" style="--base-rot: 1deg;">
+                        <div class="polaroid-frame">
+                            <img src="https://raw.githubusercontent.com/arv1eentt-arch/sheyla/39ee1676ed953a7ad3aba2d65b2881bb72ea1050/WhatsApp%20Image%202026-09-08%20at%2018.27.33.jpeg" class="w-full h-auto rounded-2xl shadow-sm" alt="Memory 2">
+                            <p class="font-serif italic text-center text-base text-stone-600 mt-3 tracking-wide">Chapter II</p>
+                        </div>
+                    </div>
+
+                    <!-- Foto 3 -->
+                    <div class="polaroid-container scroll-reveal" style="--base-rot: -1deg;">
+                        <div class="polaroid-frame">
+                            <img src="https://raw.githubusercontent.com/arv1eentt-arch/sheyla/39ee1676ed953a7ad3aba2d65b2881bb72ea1050/WhatsApp%20Image%202026-09-08%20at%2018.26.19.jpeg" class="w-full h-auto rounded-2xl shadow-sm" alt="Memory 3">
+                            <p class="font-serif italic text-center text-base text-stone-600 mt-3 tracking-wide">Chapter III</p>
+                        </div>
+                    </div>
+
+                    <!-- Foto 4 -->
+                    <div class="polaroid-container scroll-reveal" style="--base-rot: 1.5deg;">
+                        <div class="polaroid-frame">
+                            <img src="https://raw.githubusercontent.com/arv1eentt-arch/sheyla/39ee1676ed953a7ad3aba2d65b2881bb72ea1050/WhatsApp%20Image%202026-09-08%20at%2018.26.19%20(1).jpeg" class="w-full h-auto rounded-2xl shadow-sm" alt="Memory 4">
+                            <p class="font-serif italic text-center text-base text-stone-600 mt-3 tracking-wide">Chapter IV</p>
+                        </div>
+                    </div>
+
+                    <!-- Foto 5 -->
+                    <div class="polaroid-container scroll-reveal" style="--base-rot: -1deg;">
+                        <div class="polaroid-frame">
+                            <img src="https://raw.githubusercontent.com/arv1eentt-arch/sheyla/39ee1676ed953a7ad3aba2d65b2881bb72ea1050/WhatsApp%20Image%202026-09-08%20at%2018.27.33.jpeg" class="w-full h-auto rounded-2xl shadow-sm" alt="Memory 5">
+                            <p class="font-serif italic text-center text-base text-stone-600 mt-3 tracking-wide">Chapter V</p>
+                        </div>
+                    </div>
+
+                    <!-- Foto 6 -->
+                    <div class="polaroid-container scroll-reveal" style="--base-rot: 1deg;">
+                        <div class="polaroid-frame">
+                            <img src="https://raw.githubusercontent.com/arv1eentt-arch/sheyla/39ee1676ed953a7ad3aba2d65b2881bb72ea1050/WhatsApp%20Image%202026-09-08%20at%2018.26.19.jpeg" class="w-full h-auto rounded-2xl shadow-sm" alt="Memory 6">
+                            <p class="font-serif italic text-center text-base text-stone-600 mt-3 tracking-wide">Chapter VI</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainScrollableContent = document.getElementById("mainScrollableContent");
+        const envelopeSection = document.getElementById("envelopeSection");
+        const envelopeWrapper = document.getElementById("envelopeWrapper");
+        const greetingSection = document.getElementById("greetingSection");
+        const letterSection = document.getElementById("letterSection");
+        const revealedContent = document.getElementById("revealedContent");
+        const lightboxOverlay = document.getElementById("lightboxOverlay");
+        const typewrittenText = document.getElementById("typewrittenText");
+        
+        const bgMusic = document.getElementById("bgMusic");
+        const MAX_VOLUME = 0.40; 
+        let fadeInterval = null;
+
+        const LETTER_MESSAGE = "Happie graduation, Teh Caa! Super proud of you and everything you've achieved so far. May this new chapter bring you exciting opportunities, big wins, and endless happiness. Congrats, you're the greatest above all!";
+        
+        let isLightboxOpen = false;
+
+        // --- AUDIO FADE IN & FADE OUT ---
+        function fadeInAudio(duration = 2500) {
+            clearInterval(fadeInterval);
+            bgMusic.volume = 0;
+            
+            const playPromise = bgMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    const step = MAX_VOLUME / (duration / 50);
+                    fadeInterval = setInterval(() => {
+                        if (bgMusic.volume + step < MAX_VOLUME) {
+                            bgMusic.volume += step;
+                        } else {
+                            bgMusic.volume = MAX_VOLUME;
+                            clearInterval(fadeInterval);
+                        }
+                    }, 50);
+                }).catch(err => console.log("Autoplay error:", err));
+            }
+        }
+
+        function fadeOutAudio(duration = 1500) {
+            clearInterval(fadeInterval);
+            const step = bgMusic.volume / (duration / 50);
+
+            fadeInterval = setInterval(() => {
+                if (bgMusic.volume - step > 0) {
+                    bgMusic.volume -= step;
+                } else {
+                    bgMusic.volume = 0;
+                    bgMusic.pause();
+                    clearInterval(fadeInterval);
+                }
+            }, 50);
+        }
+
+        // --- TYPEWRITER ENGINE ---
+        function startTypingEffect(element, text, normalSpeed, callback) {
+            let index = 0;
+            element.innerText = "";
+            
+            function type() {
+                if (index < text.length) {
+                    const char = text.charAt(index);
+                    element.innerText += char;
+                    index++;
+
+                    let currentSpeed = normalSpeed;
+                    if (char === ',' || char === '!' || char === '.') {
+                        currentSpeed = 550; 
+                    }
+
+                    setTimeout(type, currentSpeed);
+                } else {
+                    element.classList.remove("typewriter-cursor");
+                    if (callback) callback();
+                }
+            }
+            type();
+        }
+
+        // --- ENVELOPE OPEN ENGINE ---
+        envelopeWrapper.addEventListener("click", () => {
+            envelopeWrapper.classList.remove("floating-envelope");
+            envelopeWrapper.classList.add("opacity-0", "scale-90", "pointer-events-none");
+            
+            fadeInAudio(2500);
+            
+            setTimeout(() => {
+                envelopeSection.classList.remove("h-screen");
+                envelopeSection.classList.add("h-28", "pt-6"); 
+                envelopeWrapper.classList.add("hidden");
+                
+                revealedContent.classList.remove("hidden");
+                
+                setTimeout(() => {
+                    greetingSection.classList.add("visible");
+                }, 150);
+                
+                setTimeout(() => {
+                    letterSection.classList.add("visible");
+                    
+                    setTimeout(() => {
+                        startTypingEffect(typewrittenText, LETTER_MESSAGE, 40, () => {
+                            initScrollReveal();
+                            initLightboxEngine(); 
+                            startPetalAnimation();
+                        });
+                    }, 600);
+
+                }, 750);
+                
+            }, 500);
+        });
+
+        // --- SCROLL REVEAL ---
+        function initScrollReveal() {
+            const revealElements = document.querySelectorAll('.scroll-reveal');
+            
+            const observerOptions = {
+                root: mainScrollableContent,
+                rootMargin: "0px 0px -80px 0px",
+                threshold: 0.01
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(el => observer.observe(el));
+        }
+
+        // --- LIGHTBOX ENGINE ---
+        function initLightboxEngine() {
+            const frames = document.querySelectorAll('.polaroid-frame');
+
+            frames.forEach(frame => {
+                frame.addEventListener('click', (e) => {
+                    e.stopPropagation();
+
+                    if (isLightboxOpen) return;
+                    isLightboxOpen = true;
+
+                    const srcTarget = frame.querySelector('img').getAttribute('src');
+                    const titleText = frame.querySelector('p').innerText;
+
+                    const container = document.createElement('div');
+                    container.className = "zoomed-container";
+
+                    container.innerHTML = `
+                        <img src="${srcTarget}" class="max-h-[60vh] max-w-[85vw] md:max-w-[38vw] w-auto h-auto object-contain rounded-xl shadow-inner" alt="zoomed">
+                        <p class="font-serif italic text-center text-xl text-stone-700 mt-4 tracking-wide">${titleText}</p>
+                    `;
+
+                    lightboxOverlay.innerHTML = '';
+                    lightboxOverlay.appendChild(container);
+                    lightboxOverlay.classList.add('active');
+                });
+            });
+        }
+
+        lightboxOverlay.addEventListener('click', () => {
+            lightboxOverlay.classList.remove('active');
+            fadeOutAudio(1500);
+
+            setTimeout(() => { 
+                lightboxOverlay.innerHTML = ''; 
+                isLightboxOpen = false; 
+            }, 500);
+        });
+
+        // --- PETALS ANIMATION ---
+        const petalCanvas = document.getElementById("petalCanvas");
+        const pCtx = petalCanvas.getContext("2d");
+        let petals = [];
+        let isAnimationActive = false;
+
+        function resizeCanvas() {
+            petalCanvas.width = window.innerWidth;
+            petalCanvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        function createPetal() {
+            return {
+                x: Math.random() * petalCanvas.width,
+                y: -20,
+                size: Math.random() * 5 + 3,
+                speedY: Math.random() * 0.8 + 0.4,
+                speedX: Math.random() * 0.4 - 0.2,
+                opacity: Math.random() * 0.25 + 0.2,
+                rotation: Math.random() * 360,
+                rotationSpeed: Math.random() * 0.8 - 0.4,
+                color: ["#FCE7F3", "#FFF1F2", "#FFE4E1", "#F8FAFC"][Math.floor(Math.random() * 4)]
+            };
+        }
+
+        function startPetalAnimation() {
+            isAnimationActive = true;
+            for(let i = 0; i < 18; i++) {
+                let petal = createPetal();
+                petal.y = Math.random() * petalCanvas.height;
+                petals.push(petal);
+            }
+            animatePetals();
+        }
+
+        function animatePetals() {
+            if (!isAnimationActive) return;
+            pCtx.clearRect(0, 0, petalCanvas.width, petalCanvas.height);
+
+            if (petals.length < 25 && Math.random() < 0.03) {
+                petals.push(createPetal());
+            }
+
+            petals.forEach((p, index) => {
+                p.y += p.speedY;
+                p.x += p.speedX + Math.sin(p.y / 50) * 0.1;
+                p.rotation += p.rotationSpeed;
+
+                if (p.y > petalCanvas.height + 20) {
+                    petals[index] = createPetal();
+                }
+
+                pCtx.save();
+                pCtx.translate(p.x, p.y);
+                pCtx.rotate((p.rotation * Math.PI) / 180);
+                pCtx.globalAlpha = p.opacity;
+                pCtx.fillStyle = p.color;
+                pCtx.beginPath();
+                pCtx.ellipse(0, 0, p.size, p.size / 1.5, 0, 0, Math.PI * 2);
+                pCtx.fill();
+                pCtx.restore();
+            });
+
+            requestAnimationFrame(animatePetals);
+        }
+    </script>
+</body>
+</html>
